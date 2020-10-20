@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\CreateMovieRequest;
 use Illuminate\Http\Request;
 use App\Models\Movie;
 
@@ -25,15 +26,16 @@ class MoviesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateMovieRequest $request)
     {
-       $movie = Movie::create ([
+        $data = $request->validated();
+        $movie = Movie::create ([
             "title" => $request->get('title'),
-            "director" => $request->get('director'),
             "imageUrl" => $request->get('imageUrl'),
             "duration" => $request->get('duration'),
-            'releaseDate' => $request->get('releaseDate'),
+            "releaseDate" => $request->get('releaseDate'),
             'genre' => $request->get('genre'),
+            'director' => $request->get('director'),
 
 
         ]);
@@ -49,7 +51,7 @@ class MoviesController extends Controller
      */
     public function show($id)
     {
-        $movie = Movie::find($id);
+        $movie = Movie::findOrFail($id);
         return response()->json($movie);
     }
 
@@ -60,9 +62,11 @@ class MoviesController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateMovieRequest $request, $id)
     {
-        //
+        $movie = Movie::findOrFail($id);
+        $movie->update($request->validated());
+        return $movie;
     }
 
     /**
@@ -73,6 +77,8 @@ class MoviesController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $movie = Movie::findOrFail($id);
+        $movie->delete();
+        return $movie;
     }
 }
