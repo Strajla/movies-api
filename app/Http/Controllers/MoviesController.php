@@ -14,8 +14,22 @@ class MoviesController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        $movies = Movie::all();
+
+    {   
+        $moviesQuery = Movie::query();
+
+        $title = $request->get('title', null);
+        if($title){
+            $moviesQuery->where('title', 'like', '%' . $title . '%');
+        }
+
+        $orderBy = $request->get('orderBy', null);
+        $orderDirection = $request->get('orderDir', 'asc');
+        if ($orderBy) {
+            $moviesQuery->orderBy($orderBy, $orderDirection);
+        }
+
+        $movies = $moviesQuery->get();
         
         return response()->json($movies);
     }
