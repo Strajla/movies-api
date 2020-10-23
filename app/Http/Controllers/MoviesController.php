@@ -29,6 +29,13 @@ class MoviesController extends Controller
             $moviesQuery->orderBy($orderBy, $orderDirection);
         }
 
+        $take =$request->get('take', null);
+        $skip = $request->get('skip', 0);
+        if ($take) {
+            $moviesQuery->skip($skip)->take($take);
+        }
+
+
         $movies = $moviesQuery->get();
         
         return response()->json($movies);
@@ -37,9 +44,9 @@ class MoviesController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
+    //  * @param  \Illuminate\Http\Request  $request
+    //  * @return \Illuminate\Http\Response
+    //  */
     public function store(CreateMovieRequest $request)
     {
         $data = $request->validated();
