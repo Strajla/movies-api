@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+
 use App\Http\Requests\CreateMovieRequest;
 use Illuminate\Http\Request;
 use App\Models\Movie;
@@ -13,7 +14,7 @@ class MoviesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
 
     {   
         $moviesQuery = Movie::query();

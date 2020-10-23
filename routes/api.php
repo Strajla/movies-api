@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\MoviesController;
+use App\Http\Controllers\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,3 +26,10 @@ Route::get('/movies/{id}', [MoviesController::class, 'show']);
 Route::post('/movies', [MoviesController::class, 'store']);
 Route::put('/movies/{id}', [MoviesController::class, 'update']);
 Route::delete('/movies/{id}', [MoviesController::class, 'destroy']);
+
+
+
+
+Route::post('/login', [AuthController::class, 'login']);
+Route::post('/refresh-token', [AuthController::class, 'refreshToken']);
+Route::post('/logout', [AuthController::class, 'logout']);
